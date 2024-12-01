@@ -1,0 +1,27 @@
+/* SideBar.css */
+
+/* Styles for the sidebar component */
+#sidebar {
+    /* existing sidebar styles */
+  }
+  
+  .side-menu li {
+    /* existing list item styles */
+  }
+  
+  /* Styles for the logout button */
+  .logout-button {
+    background-color: #f44336; /* Red */
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+  }
+  
+  .logout-button:hover {
+    background-color: #d32f2f;
+  }
+  

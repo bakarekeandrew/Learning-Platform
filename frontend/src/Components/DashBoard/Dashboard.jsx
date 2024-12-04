@@ -92,35 +92,78 @@ function Dashboard() {
           </div>
           
           {/* Cards in a single row */}
-          <ul className="box-info" style={{ 
-            display: 'flex', 
-            justifyContent: 'space-between',
-            margin: 0,
-            padding: 0,
-            listStyle: 'none'
-          }}>
-            <li>
-              <i className='bx bxs-group'></i>
-              <span className="text">
-                <h3>{userscount}</h3>
-                <p>Total Users</p>
-              </span>
-            </li>
-            <li>
-              <i className='bx bx-book'></i>
-              <span className="text">
-                <h3>{coursescount}</h3>
-                <p>Total Courses</p>
-              </span>
-            </li>
-            <li>
-              <i className='bx bxs-calendar-check'></i>
-              <span className="text">
-                <h3>{enrolled}</h3>
-                <p>Total Enrollment</p>
-              </span>
-            </li>
-          </ul>
+          <ul
+              className="box-info"
+              style={{
+                display: 'flex',
+                // justifyContent: 'space-between', 
+                flexWrap: 'wrap', // Allows wrapping if necessary
+                gap: '30px', // Reduced gap for less spacing
+                margin: 0,
+                padding: 0,
+                listStyle: 'none',
+              }}
+            >
+              <li
+                style={{
+                  flex: '1 1 calc(32% - 10px)', // Slightly wider cards to reduce gaps
+                  maxWidth: '280px', // Adjust card width
+                  backgroundColor: 'var(--light)', // Optional: Add background color
+                  padding: '16px',
+                  borderRadius: '12px',
+                  boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Adds slight shadow for better appearance
+                  display: 'flex',
+                  alignItems: 'center', // Vertically aligns the icon and text
+                  gap: '10px', // Space between icon and text
+                }}
+              >
+                <i className="bx bxs-group" style={{ fontSize: '36px', color: '#3C91E6' }}></i>
+                <span className="text">
+                  <h3 style={{ margin: 0 }}>{userscount}</h3>
+                  <p style={{ margin: 0 }}>Total Users</p>
+                </span>
+              </li>
+              <li
+                style={{
+                  flex: '1 1 calc(32% - 10px)',
+                  maxWidth: '280px',
+                  backgroundColor: 'var(--light)',
+                  padding: '16px',
+                  borderRadius: '12px',
+                  boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                }}
+              >
+                <i className="bx bx-book" style={{ fontSize: '36px', color: '#FFCE26' }}></i>
+                <span className="text">
+                  <h3 style={{ margin: 0 }}>{coursescount}</h3>
+                  <p style={{ margin: 0 }}>Total Courses</p>
+                </span>
+              </li>
+              <li
+                style={{
+                  flex: '1 1 calc(32% - 10px)',
+                  maxWidth: '280px',
+                  backgroundColor: 'var(--light)',
+                  padding: '16px',
+                  borderRadius: '12px',
+                  boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                }}
+              >
+                <i className="bx bxs-calendar-check" style={{ fontSize: '36px', color: '#FD7238' }}></i>
+                <span className="text">
+                  <h3 style={{ margin: 0 }}>{enrolled}</h3>
+                  <p style={{ margin: 0 }}>Total Enrollment</p>
+                </span>
+              </li>
+            </ul>
+
+
           
           {/* Charts Section */}
           <div className="table-data" style={{ 

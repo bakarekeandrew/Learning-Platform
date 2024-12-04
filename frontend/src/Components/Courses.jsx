@@ -86,7 +86,7 @@ function Courses() {
       <div className="courses-container" style={{marginTop: "20px"}}>
         {courses.map((course) => (
           <div key={course.course_id} className="course-card">
-            <img src={course.photo} alt={course.courseName} className="course-image" />
+            <img src={`http://localhost:8080${course.photo}`}  alt={course.courseName} className="course-image" />
             <div className="course-details">
               <h3 className="course-heading">
                 {course.courseName.length < 8

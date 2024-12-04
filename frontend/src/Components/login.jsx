@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "./UserContext";
-import { useTranslation } from 'react-i18next';
-import i18n from '../i18n'; 
+import { useTranslation } from "react-i18next";
+import i18n from "../i18n";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -26,82 +26,140 @@ const Login = () => {
         },
         body: JSON.stringify({ email, password }),
       });
-      
+
       const data = await response.json();
-      
+
       if (response.ok) {
-        // Store user information in localStorage
         localStorage.setItem("token", data.token);
         localStorage.setItem("email", data.email);
         localStorage.setItem("username", data.username);
         localStorage.setItem("userId", data.id);
         localStorage.setItem("userRole", data.role);
 
-        // Set user context
         setUser({
           name: data.username,
           email: data.email,
           id: data.id,
-          role: data.role
+          role: data.role,
         });
 
-        // Redirect based on user role
-        switch(data.role) {
-          case 'ADMIN':
-            navigate('/dashboard');
+        switch (data.role) {
+          case "ADMIN":
+            navigate("/dashboard");
             break;
-          case 'USER':
-            navigate('/courses');
+          case "USER":
+            navigate("/courses");
             break;
           default:
-            navigate('/courses');
+            navigate("/courses");
         }
       } else {
-        setError(data.error || t('login.error_login_failed'));
+        setError(data.error || t("login.error_login_failed"));
       }
     } catch (error) {
-      setError(t('login.error_occurred'));
+      setError(t("login.error_occurred"));
       console.error("Login error:", error);
     }
+  };
+
+  const styles = {
+    languageSwitcher: {
+      position: "absolute",
+      top: "10px",
+      right: "20px",
+      display: "flex",
+      gap: "10px",
+    },
+    button: {
+      padding: "8px 16px",
+      backgroundColor: "#f8f9fa",
+      border: "1px solid #ced4da",
+      borderRadius: "5px",
+      fontSize: "14px",
+      cursor: "pointer",
+      transition: "background-color 0.3s ease",
+    },
+    buttonHover: {
+      backgroundColor: "#e2e6ea",
+    },
   };
 
   return (
     <div>
       {/* Language Switcher */}
-      <div style={{ position: 'absolute', top: 10, right: 10 }}>
-        <button onClick={() => changeLanguage('en')}>English</button>
-        <button onClick={() => changeLanguage('fr')}>Français</button>
+      <div style={styles.languageSwitcher}>
+        <button
+          onClick={() => changeLanguage("en")}
+          style={styles.button}
+          onMouseEnter={(e) =>
+            (e.target.style.backgroundColor = styles.buttonHover.backgroundColor)
+          }
+          onMouseLeave={(e) =>
+            (e.target.style.backgroundColor = styles.button.backgroundColor)
+          }
+        >
+          English
+        </button>
+        <button
+          onClick={() => changeLanguage("fr")}
+          style={styles.button}
+          onMouseEnter={(e) =>
+            (e.target.style.backgroundColor = styles.buttonHover.backgroundColor)
+          }
+          onMouseLeave={(e) =>
+            (e.target.style.backgroundColor = styles.button.backgroundColor)
+          }
+        >
+          Français
+        </button>
       </div>
 
-      <h2>{t('login.welcome')}</h2>
-      <form onSubmit={login}>
-        <div>
-          <label>{t('login.email')}</label>
-          <input
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            required
-          />
+      <div className="auth">
+        <div className="container">
+          <h3>{t("login.welcome")}</h3>
+          <br />
+          <h2>{t("login.login")}</h2>
+          <br />
+          <form autoComplete="off" className="form-group" onSubmit={login}>
+            <label htmlFor="email">{t("login.email")}</label>
+            <input
+              type="email"
+              className="form-control"
+              style={{ width: "100%" }}
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              required
+            />
+            <br />
+            <label htmlFor="password">{t("login.password")}</label>
+            <input
+              type="password"
+              className="form-control"
+              style={{ width: "100%" }}
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              required
+            />
+            <br />
+            <br />
+            <button type="submit" className="btn btn-success btn-md">
+              {t("login.login")}
+            </button>
+          </form>
+
+          {error && (
+            <span className="error-msg" style={{ color: "red" }}>
+              {error}
+            </span>
+          )}
+
+          {/* <br /> */}
+          <span>
+            {t("login.no_account")}
+            <Link to="/register"> {t("login.register_here")}</Link>
+          </span>
         </div>
-        <div>
-          <label>{t('login.password')}</label>
-          <input
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            required
-          />
-        </div>
-        <button type="submit">{t('login.login')}</button>
-        
-        {error && <p>{error}</p>}
-        
-        <p>
-          {t('login.no_account')}{' '}
-          <Link to="/register">{t('login.register_here')}</Link>
-        </p>
-      </form>
+      </div>
     </div>
   );
 };

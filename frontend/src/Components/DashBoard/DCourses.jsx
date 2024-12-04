@@ -44,18 +44,15 @@ function Courses() {
 
   function deleteCourse(courseId) {
     axios
-      .delete("http://localhost:8800/delete", {
-        data: { courseId: courseId },
-      })
+      .delete(`http://localhost:8080/api/courses/${courseId}`)
       .then((response) => {
         console.log("Delete successful:", response.data);
-        console.log(courses);
+        setDeleted(true);
+        setCid(-1);
       })
       .catch((error) => {
         console.error("Delete error:", error);
       });
-    setDeleted(true);
-    setCid(-1);
   }
 
   function editCourse(course_id) {
@@ -97,12 +94,11 @@ function Courses() {
                         <li className="completed" style={{ marginTop: "10px",backgroundColor:'white',color:'black' }}>
                           <p >{course.course_name}</p>
                           <div style={{ width: "50px", display: "flex" }}>
-                              <button
-                                // onClick={() => {setOpenModal(true);setCid(course.course_id)}}
-	
-                                style={{ marginLeft: "-100px",marginRight:'40px' ,backgroundColor:'white'}}
-                                className="delete-button"
-                              >
+                          <button
+                              onClick={() => {setOpenModal(true);setCid(course.course_id)}}
+                              style={{ marginLeft: "-100px",marginRight:'40px' ,backgroundColor:'white'}}
+                              className="delete-button"
+                            >
                               <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
                             </button>
 

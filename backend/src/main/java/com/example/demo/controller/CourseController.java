@@ -19,7 +19,8 @@ import com.example.demo.entity.Course;
 import com.example.demo.service.CourseService;
 
 @RestController
-@RequestMapping("/api/courses") 
+@RequestMapping("/api/courses")
+@CrossOrigin(origins = "http://localhost:3000") // Add this to allow cross-origin requests
 public class CourseController {
 
     @Autowired
@@ -38,76 +39,122 @@ public class CourseController {
         return courseService.getCourseById(id);
     }
 
- @PostMapping
-public ResponseEntity<?> createCourse(
-    @RequestParam("courseName") String courseName,
-    @RequestParam("tutor") String tutor,
-    @RequestParam("price") int price,
-    @RequestParam("description") String description,
-    @RequestParam("video") String video,
-    @RequestParam(value = "photo", required = false) MultipartFile photo
-) {
-    try {
-        // Validate input
-        if (courseName == null || courseName.isEmpty()) {
-            return ResponseEntity.badRequest().body("Course name is required");
-        }
-
-        Course course = new Course();
-        course.setCourseName(courseName);
-        course.setTutor(tutor);
-        course.setPrice(price);
-        course.setDescription(description);
-        course.setVideo(video);
-
-        // Logging for debugging
-        System.out.println("Received course data:");
-        System.out.println("Course Name: " + courseName);
-        System.out.println("Tutor: " + tutor);
-        System.out.println("Price: " + price);
-        System.out.println("Description: " + description);
-        System.out.println("Video: " + video);
-
-        // Handle file upload
-        if (photo != null && !photo.isEmpty()) {
-            try {
-                // Ensure upload directory exists
-                Path uploadPath = Paths.get("uploads").toAbsolutePath().normalize();
-                Files.createDirectories(uploadPath);
-
-                // Generate unique filename
-                String originalFilename = photo.getOriginalFilename();
-                String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
-                String newFilename = UUID.randomUUID().toString() + fileExtension;
-
-                // Save file
-                Path targetLocation = uploadPath.resolve(newFilename);
-                Files.copy(photo.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
-                // Set photo path
-                course.setPhoto("/uploads/" + newFilename);
-                System.out.println("File saved: " + targetLocation);
-            } catch (IOException ex) {
-                System.err.println("Could not store file: " + ex.getMessage());
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Could not upload file: " + ex.getMessage());
+    @PostMapping
+    public ResponseEntity<?> createCourse(
+        @RequestParam("courseName") String courseName,
+        @RequestParam("tutor") String tutor,
+        @RequestParam("price") int price,
+        @RequestParam("description") String description,
+        @RequestParam("video") String video,
+        @RequestParam(value = "photo", required = false) MultipartFile photo
+    ) {
+        try {
+            // Validate input
+            if (courseName == null || courseName.isEmpty()) {
+                return ResponseEntity.badRequest().body("Course name is required");
             }
+
+            Course course = new Course();
+            course.setCourseName(courseName);
+            course.setTutor(tutor);
+            course.setPrice(price);
+            course.setDescription(description);
+            course.setVideo(video);
+
+            // Handle file upload
+            if (photo != null && !photo.isEmpty()) {
+                try {
+                    // Ensure upload directory exists
+                    Path uploadPath = Paths.get("uploads").toAbsolutePath().normalize();
+                    Files.createDirectories(uploadPath);
+
+                    // Generate unique filename
+                    String originalFilename = photo.getOriginalFilename();
+                    String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                    String newFilename = UUID.randomUUID().toString() + fileExtension;
+
+                    // Save file
+                    Path targetLocation = uploadPath.resolve(newFilename);
+                    Files.copy(photo.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+
+                    // Set photo path
+                    course.setPhoto("/uploads/" + newFilename);
+                    System.out.println("File saved: " + targetLocation);
+                } catch (IOException ex) {
+                    System.err.println("Could not store file: " + ex.getMessage());
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Could not upload file: " + ex.getMessage());
+                }
+            }
+
+            // Save course
+            Course savedCourse = courseService.createCourse(course);
+            return ResponseEntity.ok(savedCourse);
+
+        } catch (Exception e) {
+            // Log full stack trace
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error creating course: " + e.getMessage());
         }
-
-        // Save course
-        Course savedCourse = courseService.createCourse(course);
-        return ResponseEntity.ok(savedCourse);
-
-    } catch (Exception e) {
-        // Log full stack trace
-        e.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body("Error creating course: " + e.getMessage());
     }
-}
+
     @PostMapping("/{id}")
-    public Course updateCourse(@PathVariable Long id, @RequestBody Course updatedCourse) {
-        return courseService.updateCourse(id, updatedCourse);
+    public ResponseEntity<?> updateCourse(
+        @PathVariable Long id,
+        @RequestParam("courseName") String courseName,
+        @RequestParam("tutor") String tutor,
+        @RequestParam("price") int price,
+        @RequestParam("description") String description,
+        @RequestParam("video") String video,
+        @RequestParam(value = "photo", required = false) MultipartFile photo
+    ) {
+        try {
+            // Fetch existing course
+            Course existingCourse = courseService.getCourseById(id);
+
+            // Update course details
+            existingCourse.setCourseName(courseName);
+            existingCourse.setTutor(tutor);
+            existingCourse.setPrice(price);
+            existingCourse.setDescription(description);
+            existingCourse.setVideo(video);
+
+            // Handle file upload
+            if (photo != null && !photo.isEmpty()) {
+                try {
+                    // Ensure upload directory exists
+                    Path uploadPath = Paths.get("uploads").toAbsolutePath().normalize();
+                    Files.createDirectories(uploadPath);
+
+                    // Generate unique filename
+                    String originalFilename = photo.getOriginalFilename();
+                    String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                    String newFilename = UUID.randomUUID().toString() + fileExtension;
+
+                    // Save file
+                    Path targetLocation = uploadPath.resolve(newFilename);
+                    Files.copy(photo.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+
+                    // Set photo path
+                    existingCourse.setPhoto("/uploads/" + newFilename);
+                    System.out.println("File saved: " + targetLocation);
+                } catch (IOException ex) {
+                    System.err.println("Could not store file: " + ex.getMessage());
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Could not upload file: " + ex.getMessage());
+                }
+            }
+
+            // Save updated course
+            Course updatedCourse = courseService.updateCourse(id, existingCourse);
+            return ResponseEntity.ok(updatedCourse);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error updating course: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")

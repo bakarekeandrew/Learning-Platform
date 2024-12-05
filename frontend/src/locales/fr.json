@@ -1,12 +1,26 @@
 {
-    "login": {
-      "welcome": "Bienvenue !",
-      "email": "E-mail",
-      "password": "Mot de passe",
-      "login": "Connexion",
-      "no_account": "Vous n'avez pas de compte ?",
-      "register_here": "Inscrivez-vous ici",
-      "error_login_failed": "Échec de la connexion",
-      "error_occurred": "Une erreur s'est produite. Veuillez réessayer."
+  "login": {
+    "welcome": "Bienvenue!",
+    "login": "Connexion",
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "forgot_password": "Mot de passe oublié?",
+    "reset_password": "Réinitialiser le mot de passe",
+    "no_account": "Pas de compte?",
+    "register_here": "Inscrivez-vous ici",
+    "error_login_failed": "Échec de la connexion. Veuillez vérifier vos informations.",
+    "error_occurred": "Une erreur s'est produite. Veuillez réessayer.",
+    "reset_password_sent": "Un lien de réinitialisation a été envoyé à votre e-mail.",
+    "error_sending_reset": "Échec de l'envoi du lien de réinitialisation. Veuillez réessayer plus tard."
+  },
+    "forgot_password": {
+      "title": "Mot de passe oublié",
+      "email": "Adresse e-mail",
+      "send_reset_link": "Envoyer le lien de réinitialisation",
+      "reset_link_sent": "Un lien de réinitialisation du mot de passe a été envoyé à votre e-mail.",
+      "error_occurred": "Une erreur s'est produite. Veuillez réessayer.",
+      "remember_password": "Vous vous souvenez de votre mot de passe?",
+      "back_to_login": "Retour à la connexion"
     }
-  }
+  
+}

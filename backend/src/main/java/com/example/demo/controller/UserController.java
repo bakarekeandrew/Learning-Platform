@@ -45,8 +45,8 @@ public class UserController {
     }
 
     @GetMapping("/details")
-    public User getUserByEmail(@RequestParam String email) {
-        return userService.getUserByEmail(email);
+        public User getUserByEmail(@RequestParam String email) {
+            return userService.getUserByEmail(email);
     }
 
    @PostMapping("/login")
@@ -77,5 +77,29 @@ public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
     private String generateToken(User user) {
         // In a real-world scenario, use a proper JWT token generation
         return ("userId=" + user.getId() + ", email=" + user.getEmail() + ", role=" + user.getRole());
+    }
+
+    //forgot and reset password
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        try {
+            userService.sendPasswordResetEmail(email);
+            return ResponseEntity.ok().body(Map.of("message", "Password reset link sent"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Error sending reset link"));
+        }
+    }
+    
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
+        String token = request.get("token");
+        String newPassword = request.get("newPassword");
+        try {
+            userService.resetPassword(token, newPassword);
+            return ResponseEntity.ok().body(Map.of("message", "Password reset successfully"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Error resetting password"));
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 import jakarta.persistence.*;
 import java.util.List;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "app_user")
@@ -18,7 +19,24 @@ public class User {
     private String profession;
     private String linkedin_url;
     private String github_url;
+	private String passwordResetToken;
+    private LocalDateTime passwordResetTokenExpiry;
 
+	public String getPasswordResetToken() {
+		return passwordResetToken;
+	}
+
+	public void setPasswordResetToken(String passwordResetToken) {
+		this.passwordResetToken = passwordResetToken;
+	}
+
+	public LocalDateTime getPasswordResetTokenExpiry() {
+		return passwordResetTokenExpiry;
+	}
+
+	public void setPasswordResetTokenExpiry(LocalDateTime passwordResetTokenExpiry) {
+		this.passwordResetTokenExpiry = passwordResetTokenExpiry;
+	}
 
 	// Add the role field
     @Enumerated(EnumType.STRING)

@@ -48,6 +48,7 @@ function SideBar(props) {
         </li>
 
         {/* Logout button */}
+        <br /><br />
         <li>
           <button onClick={handleLogOut} className="logout-button">
             Logout

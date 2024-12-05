@@ -61,6 +61,34 @@ const Login = () => {
       console.error("Login error:", error);
     }
   };
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    setMessage('');
+    setError('');
+  
+    try {
+      const response = await fetch('http://localhost:8080/api/users/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+  
+      // Important: Check response status explicitly
+      if (response.status === 200) {
+        const data = await response.json();
+        setMessage(t('forgot_password.reset_link_sent'));
+      } else {
+        // Handle different status codes
+        const errorData = await response.json();
+        setError(errorData.error || t('forgot_password.error_occurred'));
+      }
+    } catch (error) {
+      setError(t('forgot_password.error_occurred'));
+      console.error('Forgot password error:', error);
+    }
+  };
 
   const styles = {
     languageSwitcher: {
@@ -119,7 +147,7 @@ const Login = () => {
           <h3>{t("login.welcome")}</h3>
           <br />
           <h2>{t("login.login")}</h2>
-          <br />
+          {/* <br /> */}
           <form autoComplete="off" className="form-group" onSubmit={login}>
             <label htmlFor="email">{t("login.email")}</label>
             <input
@@ -140,7 +168,10 @@ const Login = () => {
               value={password}
               required
             />
-            <br />
+            <span>
+              <Link to="/ForgotPassword">{t("login.forgot_password")}</Link>
+            </span>
+            {/* <br /> */}
             <br />
             <button type="submit" className="btn btn-success btn-md">
               {t("login.login")}

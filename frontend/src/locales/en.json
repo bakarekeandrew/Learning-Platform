@@ -1,21 +1,34 @@
 {
-    "login": {
-      "welcome": "Welcome!",
-      "email": "Email",
-      "password": "Password",
-      "login": "Login",
-      "no_account": "Don't have an account?",
-      "register_here": "Register Here",
-      "error_login_failed": "Login failed",
-      "error_occurred": "An error occurred. Please try again."
-    },
-  
-    "navbar": {
+  "login": {
+    "welcome": "Welcome Back!",
+    "login": "Login",
+    "email": "Email Address",
+    "password": "Password",
+    "forgot_password": "Forgot your password?",
+    "reset_password": "Reset Password",
+    "no_account": "Don't have an account?",
+    "register_here": "Register here",
+    "error_login_failed": "Login failed. Please check your credentials.",
+    "error_occurred": "An error occurred. Please try again.",
+    "reset_password_sent": "Password reset link has been sent to your email.",
+    "error_sending_reset": "Failed to send reset link. Please try again later."
+  },
+  "navbar": {
       "home": "Home",
       "courses": "Courses",
       "profile": "Profile",
       "learnings": "Learnings",
       "sign_out": "Sign Out",
       "login_signup": "Login/SignUp"
-    }
-  }
+    },
+      "forgot_password": {
+        "title": "Forgot Password",
+        "email": "Email Address",
+        "send_reset_link": "Send Reset Link",
+        "reset_link_sent": "A password reset link has been sent to your email.",
+        "error_occurred": "An error occurred. Please try again.",
+        "remember_password": "Remember your password?",
+        "back_to_login": "Back to Login"
+      }
+    
+}

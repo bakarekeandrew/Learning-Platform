@@ -25,6 +25,8 @@ import Certificate from './Components/certificate';
 import Forum from './Components/forum';
 import { I18nextProvider } from 'react-i18next';
 import './i18n';
+import ForgotPassword from './Components/ForgotPassword';
+
 
 // Create a ProtectedRoute component
 const ProtectedRoute = ({ children, requiredRole }) => {
@@ -66,6 +68,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Home />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
 
           {/* User Protected Routes */}
           <Route 
